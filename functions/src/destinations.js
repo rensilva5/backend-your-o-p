@@ -13,19 +13,7 @@ export async function getDestinations(req, res) {
   });
   res.send(destinations);
 }
-// export async function getCountries(req, res) {
-//   const db = dbConnect();
-//   const collection = await db
-//     .collection("countries")
-//     .get()
-//     .catch((err) => res.stutus(500).send(err));
-//   const countries = collection.docs.map((doc) => {
-//     let country = doc.data();
-//     country.id = doc.id;
-//     return country;
-//   });
-//   res.send(countries);
-// }
+
 export async function createDestination(req, res) {
   const newDestination = req.body;
   if (!newDestination || !newDestination.Destination) {
@@ -43,13 +31,13 @@ export async function createDestination(req, res) {
   getDestinations(req, res);
 }
 
-export function updateDestinations(req, res) {
+export function updateDestination(req, res) {
   const DestinationUpdate = req.body;
   const { DestinationId } = req.params;
   res.status(202).send("Destination updated");
 }
 
-export function deleteDestinations(req, res) {
+export function deleteDestination(req, res) {
   const { DestinationId } = req.params;
   res.status(203).send("Destination Deleted");
 }
