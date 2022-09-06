@@ -6,21 +6,23 @@
 import functions from 'firebase-functions'
 import express from 'express';
 import cors from 'cors'
-import { getDestinations, createDestination, updateDestination, deleteDestination } from './src/destinations.js'
+import { getDestinations, createDestination, updateDestination, deleteDestination, getDestinationById } from './src/destinations.js'
+import { getCountries } from './src/countries.js';
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/destinations', getDestinations)
+app.get('/countries', getCountries)  
+app.get('/destinations', getDestinations)  
 app.post('/destination', createDestination)
 app.patch('/destination/:destinationId', updateDestination)
 app.delete('/destination/:destinationId', deleteDestination)
+app.get('/destination/:destinationId', getDestinationById)
 
 // app.get('/test', (req, res) => {
-//     res.send('YeahhHi! first test on my final project👍🏼')
+//     res.send('Hi! first test on my final project👍🏼')
 // })
-
 
 export const api = functions.https.onRequest(app) 
 

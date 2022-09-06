@@ -1,4 +1,25 @@
+import { response } from "express";
 import dbConnect from "./dbConnect.js";
+
+export function getDestinationById(req, res) {
+  const { destinationId } = req.params
+  if (!destinationId) {
+  res.status(400).send("Invalid request")
+  return
+  }
+const db = dbConnect()
+db.collection("destinations")
+  .doc(destinationId)
+  .get()
+  .then(doc => {
+    let destination = doc.data()
+    destination.Id = doc.id
+    res.send(destination)
+  })
+  .catch(err => {
+    res.status(500).send(err)
+  })
+}
 
 export async function getDestinations(req, res) {
   const db = dbConnect();
@@ -16,7 +37,7 @@ export async function getDestinations(req, res) {
 
 export async function createDestination(req, res) {
   const newDestination = req.body;
-  if (!newDestination || !newDestination.Destination) {
+  if (!newDestination) {
     res
       .status(400)
       .send({ success: false, message: "This is an invalid request" });
@@ -28,13 +49,26 @@ export async function createDestination(req, res) {
     .add(newDestination)
     .catch((err) => res.status(500).send(err));
   res.status(201);
-  getDestinations(req, res);
+  getDestinations(req, res);  // It gives the collection updated back after we create a new destination
 }
 
-export function updateDestination(req, res) {
-  const DestinationUpdate = req.body;
-  const { DestinationId } = req.params;
-  res.status(202).send("Destination updated");
+export async function updateDestination(req, res) {
+  if (!req.params || !req.params.destinationId || !req.body) {
+    res.status(404).send({ success: false, message: "This is an invalid request" });
+    return
+  }
+  // const DestinationUpdate = req.body;
+  const { destinationId } = req.params
+  const db = dbConnect()
+  await db
+  .collection("destinations")
+  .doc(destinationId)
+  // .doc(`${DestinationId}`).update({country: req.body.country}) // set old Firebase version, now it's update 
+  .then(() => {
+    res.send("destination updated")
+  })
+  .catch((err) => res.status(500).send(err));
+  // res.status(202).send("Destination updated");
 }
 
 export function deleteDestination(req, res) {
