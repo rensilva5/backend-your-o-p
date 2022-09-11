@@ -13,3 +13,20 @@ export async function getCountries(req, res) {
     });
     res.send(countries);
   }
+
+  export async function createCountries(req, res) {
+    const newCountry = req.body;
+    if (!newCountry) {
+      res
+        .status(400)
+        .send({ success: false, message: "This is an invalid request" });
+      return;
+    }
+    const db = dbConnect();
+    await db
+      .collection("countries")
+      .add(newCountry)
+      .catch((err) => res.status(500).send(err));
+    res.status(201);
+    getCountries(req, res);
+  }
