@@ -10,9 +10,9 @@ import { getDestinations, createDestination, updateDestination, deleteDestinatio
 import { getCountries } from './src/countries.js';
 
 const app = express()
-app.use(cors())
+// app.use(cors())
 app.use(express.json())
-// app.use(cors({origin:["http://localhost:3000"]}))
+app.use(cors({origin:["https://your-o-planner.web.app"]}))
 
 app.get('/countries', getCountries)  
 app.get('/destinations', getDestinations)  
