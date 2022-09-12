@@ -57,13 +57,13 @@ export async function updateDestination(req, res) {
     res.status(404).send({ success: false, message: "This is an invalid request" });
     return
   }
-  // const DestinationUpdate = req.body;
+  const newReview = req.body;
   const { destinationId } = req.params
+  console.log(destinationId)
   const db = dbConnect()
   await db
   .collection("destinations")
-  .doc(destinationId)
-  // .doc(`${DestinationId}`).update({country: req.body.country}) // set old Firebase version, now it's update 
+  .doc(destinationId).update({reviews: newReview})
   .then(() => {
     res.send("destination updated")
   })
@@ -72,6 +72,6 @@ export async function updateDestination(req, res) {
 }
 
 export function deleteDestination(req, res) {
-  const { DestinationId } = req.params;
+  const { destinationId } = req.params;
   res.status(203).send("Destination Deleted");
 }
