@@ -12,7 +12,7 @@ import { getCountries } from './src/countries.js';
 const app = express()
 // app.use(cors())
 app.use(express.json())
-app.use(cors({origin:["https://your-o-planner.web.app"]}))
+app.use(cors({origin:["https://your-o-planner.web.app", "http://localhost:3001"]}))
 
 app.get('/countries', getCountries)  
 app.get('/destinations', getDestinations)  

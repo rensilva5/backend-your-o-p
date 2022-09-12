@@ -65,7 +65,7 @@ export async function updateDestination(req, res) {
   .collection("destinations")
   .doc(destinationId).update({reviews: newReview})
   .then(() => {
-    res.send("destination updated")
+    getDestinations(req, res)
   })
   .catch((err) => res.status(500).send(err));
   // res.status(202).send("Destination updated");
